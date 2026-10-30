@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<title>JetaFX Client Help Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&family=Noto+Sans+Malayalam:wght@400..700&display=swap">
+<style>
+/* Layout: matches payments.edgeverse.ae — white page, sticky header (mark + badge + pill nav), one narrow column of cards with label/value rows and a full-width green copy button. Deliberately light-only, like the reference. */
+:root{
+  color-scheme:light;
+  --bg:#FFFFFF; --fg:#0B1F1E; --muted:#5E6E6D; --line:#DDE7E6; --line-soft:#E7EEED;
+  --head-a:#F2F7F7; --head-b:#FFFFFF; --sunk:#F5F9F9;
+  --green:#08E186; --emerald:#0A6B4F; --mint:#E6F8EF; --ink:#021A1A;
+  --ph-bg:#FFF2D9; --ph-fg:#7A4B00;
+  --font:"Manrope","Noto Sans Malayalam",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --ml:"Noto Sans Malayalam","Manrope",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:130px}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.col{max-width:636px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;justify-content:space-between;padding-block:14px 8px}
+.top img{width:38px;height:38px;display:block}
+.badge{background:var(--mint);color:var(--emerald);font-weight:600;font-size:13px;padding:6px 11px;border-radius:999px}
+.pills{position:relative;display:flex;gap:8px;overflow-x:auto;padding-block:4px 12px;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pills a{flex:none;text-decoration:none;color:var(--fg);font-weight:700;font-size:13.5px;padding:8px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--bg)}
+.pills a.on{background:var(--ink);border-color:var(--ink);color:#fff}
+
+main .col{padding-block:22px 60px;display:grid;gap:18px}
+h1{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.15;margin:12px 0 4px;text-wrap:balance}
+h2.sec{font-size:22px;font-weight:800;letter-spacing:-.015em;margin:26px 0 0}
+.intro{color:var(--muted);margin:0}
+.intro b{color:#3E4D4C}
+
+.card{border:1.5px solid var(--line);border-radius:18px;overflow:hidden;background:var(--bg)}
+.card-head{padding:18px 18px 16px;background:linear-gradient(180deg,var(--head-a),var(--head-b));border-bottom:1.5px solid var(--line)}
+.eyebrow{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--emerald);margin:0 0 6px}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
+.card-title{font-size:18px;font-weight:800;line-height:1.35;margin:0}
+.card-title.ml{font-family:var(--ml);font-weight:700}
+.card-sub{font-size:13.5px;color:var(--muted);margin:3px 0 0}
+.rows{padding:4px 18px}
+.r{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1.5px dashed var(--line-soft)}
+.r:last-child{border-bottom:0}
+.r .t{min-width:0}
+.k{display:block;font-size:12.5px;color:var(--muted);font-weight:500}
+.v{display:block;font-weight:700;font-size:15.5px;word-break:break-word}
+.v.url{font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--mint);color:var(--emerald)}
+.ib{flex:none;width:40px;height:38px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--fg);display:grid;place-items:center;cursor:pointer;box-shadow:0 1px 2px rgba(2,26,26,.06)}
+.ib:hover{border-color:#B9CCCA}
+.ib svg{width:16px;height:16px}
+.ib.done{background:var(--green);border-color:var(--green)}
+.foot{padding:4px 18px 16px;display:grid;gap:4px}
+.big{font:inherit;font-weight:800;font-size:16px;width:100%;border:0;border-radius:12px;background:var(--green);color:var(--ink);padding:14px;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;text-decoration:none}
+.big:hover{filter:brightness(.96)}
+.big svg{width:18px;height:18px}
+.big.done{background:var(--emerald);color:#fff}
+.alt{display:flex;gap:8px;flex-wrap:wrap}
+.alt .sec-btn{flex:1 1 140px}
+.sec-btn{font:inherit;font-weight:700;font-size:14px;border:1.5px solid var(--line);background:#fff;color:var(--fg);border-radius:12px;padding:11px;cursor:pointer;text-align:center;text-decoration:none}
+.sec-btn:hover{border-color:#B9CCCA}
+.sec-btn.done{background:var(--mint);border-color:var(--green)}
+.link{font:inherit;background:none;border:0;color:var(--emerald);font-weight:700;font-size:13.5px;padding:8px;cursor:pointer;justify-self:center}
+.link:hover{text-decoration:underline}
+pre.msg{white-space:pre-wrap;word-break:break-word;font-family:var(--font);font-size:13.5px;line-height:1.6;background:var(--sunk);border:1.5px solid var(--line-soft);border-radius:12px;padding:14px;margin:4px 0 0;max-height:440px;overflow:auto}
+.ph{background:var(--ph-bg);color:var(--ph-fg);border-radius:4px;padding:0 3px;font-weight:600}
+.filled{background:var(--mint);border-radius:4px;padding:0 3px;font-weight:700;color:var(--emerald)}
+
+.seg{display:flex;background:var(--sunk);border:1.5px solid var(--line);border-radius:12px;padding:3px;margin-top:10px}
+.seg button{flex:1;font:inherit;font-size:14px;font-weight:700;border:0;background:transparent;color:var(--muted);padding:9px 10px;border-radius:9px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--fg);box-shadow:0 1px 3px rgba(2,26,26,.12)}
+
+details.fill{border-top:1.5px solid var(--line);}
+details.fill summary{cursor:pointer;list-style:none;padding:13px 18px;font-weight:700;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+details.fill summary::-webkit-details-marker{display:none}
+details.fill summary::after{content:"+";font-size:20px;color:var(--muted);font-weight:500}
+details.fill[open] summary::after{content:"−"}
+.fields{padding:0 18px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{display:grid;gap:4px;min-width:0}
+.field.wide{grid-column:1/-1}
+.field label{font-size:12.5px;color:var(--muted);font-weight:600}
+.field input,.field textarea{font:inherit;font-size:14.5px;font-weight:600;padding:10px 11px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--fg);width:100%}
+.field textarea{resize:vertical;min-height:60px}
+.field input::placeholder,.field textarea::placeholder{color:#9AA9A8;font-weight:500}
+.clear{grid-column:1/-1;justify-self:start;font:inherit;font-size:13px;font-weight:700;color:var(--emerald);background:none;border:0;padding:2px 0;cursor:pointer}
+
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+footer{color:var(--muted);font-size:12.5px;border-top:1px solid var(--line)}
+footer .col{padding-block:18px}
+footer a{color:inherit}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(16px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:20}
+.toast.show{opacity:1;transform:translateX(-50%)}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+@media (max-width:480px){.fields{grid-template-columns:1fr} h1{font-size:26px}}
+</style>
+
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<header>
+  <div class="col">
+    <div class="top">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIyNDUgMjQ1IDU5MCA1OTAiIHdpZHRoPSI1OTAiIGhlaWdodD0iNTkwIj4KPHBhdGggZmlsbC1ydWxlPSJub256ZXJvIiBmaWxsPSIjMDhFMTg2IiBmaWxsLW9wYWNpdHk9IjEiIGQ9Ik0gMzY3LjEzMjgxMiAzMjguMzgyODEyIEMgMzU2LjA3MDMxMiAzMjguMzgyODEyIDM0Ny4wODU5MzggMzM3LjM2NzE4OCAzNDcuMDg1OTM4IDM0OC40Mjk2ODggTCAzNDcuMDg1OTM4IDQ0Mi4xMjEwOTQgQyAzNDcuMDg1OTM4IDQ1My4xODc1IDM1Ni4wNzAzMTIgNDYyLjE3MTg3NSAzNjcuMTMyODEyIDQ2Mi4xNzE4NzUgTCA0NzYuMzk0NTMxIDQ2Mi4xNzE4NzUgQyA0NTAuNTM1MTU2IDUzMC44NDM3NSAzNjguNDkyMTg4IDUyNy4yNjE3MTkgMzU1LjExNzE4OCA1MjcuMjYxNzE5IEMgMzEyLjIxODc1IDUyNy4yNjE3MTkgMjczLjczNDM3NSA1MTEuMzcxMDk0IDI0Ny40NDkyMTkgNDgyLjEwNTQ2OSBMIDI0Ny40NDkyMTkgNzcyLjUzNTE1NiBDIDI3NC4zNDM3NSA3NzcuMjE0ODQ0IDMwMi4yODEyNSA3NzkuNjQwNjI1IDMzMS4wMjM0MzggNzc5LjY0MDYyNSBDIDM5NC4zNTE1NjIgNzc5LjY0MDYyNSA0NDguNzQ2MDk0IDc2OC4wNTg1OTQgNDk0LjAxNTYyNSA3NDguNDM3NSBDIDUzOS4yNTc4MTIgNzI4LjgyNDIxOSA1NzUuMzY3MTg4IDcwMS4xNzU3ODEgNjAyLjE0ODQzOCA2NjkuMDgyMDMxIEwgNjAyLjI5Mjk2OSA3MzQuNjg3NSBDIDYwMi4zMjAzMTIgNzQ1Ljc1MzkwNiA2MTEuMjc3MzQ0IDc1NC42ODM1OTQgNjIyLjMzOTg0NCA3NTQuNjgzNTk0IEwgNzM4LjE1NjI1IDc1NC42ODM1OTQgQyA3NDkuMjIyNjU2IDc1NC42ODM1OTQgNzU4LjIwNzAzMSA3NDUuNjk5MjE5IDc1OC4yMDcwMzEgNzM0LjYzMjgxMiBMIDc1OC4yMDcwMzEgMzI4LjM4MjgxMiBaIE0gMzY3LjEzMjgxMiAzMjguMzgyODEyICIvPgo8cGF0aCBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9IiMwOEUxODYiIGZpbGwtb3BhY2l0eT0iMSIgZD0iTSAzMTAuODc4OTA2IDI0Ny40MzM1OTQgQyAyNzUuODMyMDMxIDI0Ny40MzM1OTQgMjQ3LjQzMzU5NCAyNzUuODMyMDMxIDI0Ny40MzM1OTQgMzEwLjg3NSBMIDI0Ny40MzM1OTQgNDgyLjEwNTQ2OSBDIDI3My43MjI2NTYgNTExLjM3MTA5NCAzMTIuMjAzMTI1IDUyNy4yNTc4MTIgMzU1LjEwNTQ2OSA1MjcuMjU3ODEyIEMgMzY4LjQ4MDQ2OSA1MjcuMjU3ODEyIDQ1MC41MzEyNSA1MzAuODQzNzUgNDc2LjM5MDYyNSA0NjIuMTcxODc1IEwgMzY3LjEyNSA0NjIuMTcxODc1IEMgMzU2LjA1ODU5NCA0NjIuMTcxODc1IDM0Ny4wNzQyMTkgNDUzLjE4NzUgMzQ3LjA3NDIxOSA0NDIuMTIxMDk0IEwgMzQ3LjA3NDIxOSAzNDguNDMzNTk0IEMgMzQ3LjA3NDIxOSAzMzcuMzcxMDk0IDM1Ni4wNTg1OTQgMzI4LjM4MjgxMiAzNjcuMTI1IDMyOC4zODI4MTIgTCA3NTguMjA3MDMxIDMyOC4zODI4MTIgTCA3NTguMjA3MDMxIDczNC42MzI4MTIgQyA3NTguMjA3MDMxIDc0NS42OTUzMTIgNzQ5LjIxODc1IDc1NC42ODM1OTQgNzM4LjE1NjI1IDc1NC42ODM1OTQgTCA2MjIuMzM1OTM4IDc1NC42ODM1OTQgQyA2MTEuMjczNDM4IDc1NC42ODM1OTQgNjAyLjMxNjQwNiA3NDUuNzUzOTA2IDYwMi4yODkwNjIgNzM0LjY4NzUgTCA2MDIuMTQ0NTMxIDY2OS4wNzgxMjUgQyA1NzUuMzYzMjgxIDcwMS4xNzU3ODEgNTM5LjI0NjA5NCA3MjguODI4MTI1IDQ5NC4wMTE3MTkgNzQ4LjQ0MTQwNiBDIDQ0OC43MzgyODEgNzY4LjA1ODU5NCAzOTQuMzM1OTM4IDc3OS42NDA2MjUgMzMxLjAxMTcxOSA3NzkuNjQwNjI1IEMgMzAyLjI5Mjk2OSA3NzkuNjQwNjI1IDI3NC4zODY3MTkgNzc3LjIxNDg0NCAyNDcuNTE5NTMxIDc3Mi41NjI1IEMgMjQ5LjMxMjUgODA2LjAxOTUzMSAyNzYuOTg4MjgxIDgzMi41NjY0MDYgMzEwLjg3ODkwNiA4MzIuNTY2NDA2IEwgNzY5LjEyNSA4MzIuNTY2NDA2IEMgODA0LjE3MTg3NSA4MzIuNTY2NDA2IDgzMi41NjY0MDYgODA0LjE2Nzk2OSA4MzIuNTY2NDA2IDc2OS4xMjUgTCA4MzIuNTY2NDA2IDMxMC44NzUgQyA4MzIuNTY2NDA2IDI3NS44MzIwMzEgODA0LjE3MTg3NSAyNDcuNDMzNTk0IDc2OS4xMjUgMjQ3LjQzMzU5NCBaIE0gMzEwLjg3ODkwNiAyNDcuNDMzNTk0ICIvPgo8cGF0aCBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9IiMwMjFBMUEiIGZpbGwtb3BhY2l0eT0iMSIgZD0iTSAzNjcuMTMyODEyIDMyOC4zODI4MTIgQyAzNTYuMDcwMzEyIDMyOC4zODI4MTIgMzQ3LjA4NTkzOCAzMzcuMzY3MTg4IDM0Ny4wODU5MzggMzQ4LjQyOTY4OCBMIDM0Ny4wODU5MzggNDQyLjEyMTA5NCBDIDM0Ny4wODU5MzggNDUzLjE4NzUgMzU2LjA3MDMxMiA0NjIuMTcxODc1IDM2Ny4xMzI4MTIgNDYyLjE3MTg3NSBMIDQ3Ni4zOTQ1MzEgNDYyLjE3MTg3NSBDIDQ1MC41MzUxNTYgNTMwLjg0Mzc1IDM2OC40OTIxODggNTI3LjI2MTcxOSAzNTUuMTE3MTg4IDUyNy4yNjE3MTkgQyAzMTIuMjE4NzUgNTI3LjI2MTcxOSAyNzMuNzM0Mzc1IDUxMS4zNzEwOTQgMjQ3LjQ0OTIxOSA0ODIuMTA1NDY5IEwgMjQ3LjQ0OTIxOSA3NzIuNTM1MTU2IEMgMjc0LjM0Mzc1IDc3Ny4yMTQ4NDQgMzAyLjI4MTI1IDc3OS42NDA2MjUgMzMxLjAyMzQzOCA3NzkuNjQwNjI1IEMgMzk0LjM1MTU2MiA3NzkuNjQwNjI1IDQ0OC43NDYwOTQgNzY4LjA1ODU5NCA0OTQuMDE1NjI1IDc0OC40Mzc1IEMgNTM5LjI1NzgxMiA3MjguODI0MjE5IDU3NS4zNjcxODggNzAxLjE3NTc4MSA2MDIuMTQ4NDM4IDY2OS4wODIwMzEgTCA2MDIuMjkyOTY5IDczNC42ODc1IEMgNjAyLjMyMDMxMiA3NDUuNzUzOTA2IDYxMS4yNzczNDQgNzU0LjY4MzU5NCA2MjIuMzM5ODQ0IDc1NC42ODM1OTQgTCA3MzguMTU2MjUgNzU0LjY4MzU5NCBDIDc0OS4yMjI2NTYgNzU0LjY4MzU5NCA3NTguMjA3MDMxIDc0NS42OTkyMTkgNzU4LjIwNzAzMSA3MzQuNjMyODEyIEwgNzU4LjIwNzAzMSAzMjguMzgyODEyIFogTSAzNjcuMTMyODEyIDMyOC4zODI4MTIgIi8+Cjwvc3ZnPg==" alt="Edge">
+      <span class="badge">Support · JetaFX</span>
+    </div>
+    <nav class="pills" id="pills" aria-label="Sections"></nav>
+  </div>
+</header>
+
+<main>
+<div class="col" id="main">
+  <div>
+    <h1>JetaFX help kit</h1>
+    <p class="intro">Tap <b>Copy full message</b> and paste it straight into WhatsApp. Bold formatting is kept.</p>
+  </div>
+</div>
+</main>
+
+<footer><div class="col">Edge Trading Academy · Internal support tool · <a href="https://www.edgeacademy.ae" target="_blank" rel="noopener">edgeacademy.ae</a></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const SUPPORT_EMAIL="support@jetafx.com";
+const IC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 4.5h-9a2 2 0 0 0-2 2v9"/></svg>';
+const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
+const VIDEOS=[
+ {tag:"Account opening",ml:"JetaFX Account എങ്ങനെ ഓപ്പൺ ചെയ്യാം?",en:"Sign Up + KYC full guide",short:"Account opening – Sign Up + KYC",url:"https://www.youtube.com/shorts/mgNJtPy1MtM",when:["How do I open an account?","KYC / documents"]},
+ {tag:"Deposit",ml:"JetaFX-ൽ എങ്ങനെ Deposit ചെയ്യാം?",en:"4 ways: INR, AED, Card, Crypto",short:"Deposit – INR, AED, Card, Crypto",url:"https://www.youtube.com/shorts/IfxtlbDGcek",when:["How do I deposit?","Which payment method?"]},
+ {tag:"MT5 login",ml:"JetaFX MT5 ആപ്പിൽ എങ്ങനെ Login ചെയ്യാം?",en:"MT5 login + MT5 password change",short:"MT5 app login + password change",url:"https://www.youtube.com/shorts/uJPK5P64fJ0",when:["Can't log in to MT5","Forgot MT5 password"]},
+ {tag:"MT5 account & transfer",ml:"JetaFX MT5 Account എങ്ങനെ ഉണ്ടാക്കാം",en:"Create MT5 account + Wallet → MT5 fund transfer",short:"Create MT5 account + Wallet to MT5 transfer",url:"https://www.youtube.com/shorts/YKkDqBfIJ8M",when:["Money in wallet, not in MT5","Need a trading account"]},
+ {tag:"Withdrawal",ml:"JetaFX-ൽ നിന്ന് പണം എങ്ങനെ Withdraw ചെയ്യാം?",en:"MT5 → Wallet → Bank",short:"Withdrawal – MT5 to Wallet to Bank",url:"https://www.youtube.com/shorts/M90jZXksn-0",when:["How do I withdraw?","Move profit to bank"]},
+];
+const vidMsg=(v,i)=>`*Part ${i+1} · ${v.ml}*\n${v.en} (Malayalam)\n\n▶️ ${v.url}`;
+const seriesMsg=()=>{let s="*JetaFX Help Videos – Malayalam* 🎥\nStep-by-step guide, from account opening to withdrawal 👇\n";VIDEOS.forEach((v,i)=>s+=`\n*${i+1}. ${v.short}*\n${v.url}\n`);return s+"\nWatch in order. Any doubt, message us here 🙂";};
+
+/* ---------- email templates ---------- */
+const LABELS={client:{name:"Your Name",email:"Your Email",phone:"Your Phone Number"},sales:{name:"Client Name",email:"Client Email",agent:"Your Name"},
+ common:{id:"Client ID",issue:"Short description – e.g. KYC pending / documents rejected / verification email not received",amount:"Amount",wmethod:"Bank / Crypto",dmethod:"Bank Transfer / Card / Crypto",date:"Date",ref:"Reference ID",mt5:"MT5 Login ID"}};
+const FIELD_UI={name:"Client name",id:"Client ID",email:"Registered email",issue:"Issue (short)",amount:"Amount",wmethod:"Withdrawal method",dmethod:"Deposit method",date:"Date",ref:"Transaction / Reference ID",mt5:"MT5 login ID",phone:"Client phone",agent:"Your name (sales)"};
+const OPEN="Dear JetaFX Support Team,\n\nI hope you are doing well.\n\n";
+const SIGN={client:"Looking forward to your quick support.\n\nThank you,\n{name}\n{phone}",sales:"Looking forward to your quick support.\n\nThank you,\n{agent}\nSales Team"};
+const T=[
+ {key:"account",title:"Account Opening Issue",sub:"KYC pending, documents rejected, no verification email",attach:"Screenshot of the issue",fields:["name","id","email","issue"],
+  client:"I am facing an issue while opening my JetaFX account and I need your help to complete the process.\n\nName: {name}\nClient ID: {id}\nRegistered Email: {email}\nIssue: {issue}\n\nI have attached a screenshot for your reference. Kindly check and let me know if I need to submit any other documents.\n\n",
+  sales:"Our client is facing an issue while opening their JetaFX account and needs your help to complete the process.\n\nClient Name: {name}\nClient ID: {id}\nRegistered Email: {email}\nIssue: {issue}\n\nI have attached a screenshot for your reference. Kindly check and let us know if the client needs to submit any other documents.\n\n"},
+ {key:"withdraw",title:"Withdrawal Issue",sub:"Withdrawal placed, amount not received",attach:"Screenshot of the withdrawal request",fields:["name","id","amount","wmethod","date"],
+  client:"I have placed a withdrawal request, but I have not received the amount yet.\n\nName: {name}\nClient ID: {id}\nWithdrawal Amount: {amount}\nWithdrawal Method: {wmethod}\nDate of Request: {date}\n\nI have attached a screenshot of the request. Kindly check the status and let me know when I can expect to receive the funds.\n\n",
+  sales:"Our client has placed a withdrawal request, but the amount has not been received yet. The client is waiting for an update.\n\nClient Name: {name}\nClient ID: {id}\nWithdrawal Amount: {amount}\nWithdrawal Method: {wmethod}\nDate of Request: {date}\n\nI have attached a screenshot of the request. Kindly check the status and let us know when the client can expect to receive the funds.\n\n"},
+ {key:"deposit",title:"Deposit Not Credited",sub:"Payment made, wallet not updated",attach:"Payment proof",fields:["name","id","amount","dmethod","date","ref"],
+  client:"I have made a deposit, but the amount is not yet credited to my JetaFX wallet.\n\nName: {name}\nClient ID: {id}\nDeposit Amount: {amount}\nDeposit Method: {dmethod}\nDate of Payment: {date}\nTransaction / Reference ID: {ref}\n\nI have attached the payment proof for your reference. Kindly verify the payment and credit the amount to my wallet as soon as possible.\n\n",
+  sales:"Our client has made a deposit, but the amount is not yet credited to their JetaFX wallet.\n\nClient Name: {name}\nClient ID: {id}\nDeposit Amount: {amount}\nDeposit Method: {dmethod}\nDate of Payment: {date}\nTransaction / Reference ID: {ref}\n\nI have attached the payment proof for your reference. Kindly verify the payment and credit the amount to the client's wallet as soon as possible.\n\n"},
+ {key:"negative",title:"Negative Balance Removal",sub:"Reset MT5 balance to zero",attach:"Screenshot of the account balance",fields:["name","id","mt5","amount","date"],
+  client:"My trading account is currently showing a negative balance. I kindly request you to reset the balance to zero so I can continue trading.\n\nName: {name}\nClient ID: {id}\nMT5 Account: {mt5}\nNegative Balance: -{amount}\nDate: {date}\n\nI have attached a screenshot of my account balance. Kindly review and help me resolve this.\n\n",
+  sales:"Our client's trading account is currently showing a negative balance. We kindly request you to reset the balance to zero so the client can continue trading.\n\nClient Name: {name}\nClient ID: {id}\nMT5 Account: {mt5}\nNegative Balance: -{amount}\nDate: {date}\n\nI have attached a screenshot of the account balance. Kindly review and help us resolve this.\n\n"},
+];
+
+let mode="client"; try{const m=localStorage.getItem('jfx-mode'); if(m==='sales'||m==='client') mode=m;}catch(e){}
+const vals=T.map(()=>({}));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const lab=k=>LABELS[mode][k]||LABELS.common[k];
+const subjTpl=i=>`${T[i].title} – {name} | ID: {id}`;
+const bodyTpl=i=>OPEN+T[i][mode]+SIGN[mode];
+const fillT=(tpl,i)=>tpl.replace(/\{(\w+)\}/g,(m,k)=>{const v=(vals[i][k]||"").trim();return v||`[${lab(k)}]`;});
+const fillH=(tpl,i)=>esc(tpl).replace(/\{(\w+)\}/g,(m,k)=>{const v=(vals[i][k]||"").trim();return v?`<span class="filled">${esc(v)}</span>`:`<span class="ph">[${esc(lab(k))}]</span>`;});
+const waMsg=i=>`*JetaFX Support Email – ${T[i].title}*\n\nPlease send this email to *${SUPPORT_EMAIL}*. Replace everything in [brackets] with your details and attach: *${T[i].attach.toLowerCase()}*.\n\n*Subject:*\n${fillT(subjTpl(i),i)}\n\n*Email:*\n${fillT(bodyTpl(i),i)}`;
+
+/* ---------- build ---------- */
+const main=document.getElementById('main');
+const nav=document.getElementById('pills');
+const navItems=[];
+function addNav(id,label){const a=document.createElement('a');a.href='#'+id;a.textContent=label;nav.appendChild(a);navItems.push([id,a]);}
+function row(k,vHTML,copyKey,extra=""){return `<div class="r"><div class="t"><span class="k">${k}</span>${vHTML}</div>${copyKey?`<button class="ib" data-copy="${copyKey}" aria-label="Copy ${esc(k)}">${IC}</button>`:extra}</div>`;}
+
+// Videos
+const h2v=document.createElement('h2');h2v.className='sec';h2v.id='videos';h2v.textContent='Help videos (Malayalam)';main.appendChild(h2v);
+addNav('videos','All videos');
+const all=document.createElement('section');all.className='card';
+all.innerHTML=`<div class="card-head"><p class="eyebrow">Full series · 5 Shorts</p><h3 class="card-title">Send all 5 help videos</h3><p class="card-sub">One message with every link, in order. Good for new clients.</p></div>
+<div class="rows">${VIDEOS.map((v,i)=>row(`Part ${i+1} · ${v.tag}`,`<span class="v url">${v.url.replace('https://www.','')}</span>`,`link:${i}`)).join('')}</div>
+<div class="foot"><button class="big" data-copy="series">${IC}Copy full message</button><button class="link" data-preview="p-series">Preview message</button><pre class="msg" id="p-series" hidden></pre></div>`;
+main.appendChild(all);
+document.getElementById('p-series').textContent=seriesMsg();
+
+VIDEOS.forEach((v,i)=>{
+  const id='part-'+(i+1); addNav(id,`Part ${i+1} · ${v.tag}`);
+  const c=document.createElement('section');c.className='card';c.id=id;
+  c.innerHTML=`<div class="card-head"><p class="eyebrow">Part ${i+1} · ${v.tag}</p><h3 class="card-title ml" lang="ml">${v.ml}</h3><p class="card-sub">${v.en}</p></div>
+  <div class="rows">
+   ${row('Video link',`<span class="v url">${v.url.replace('https://www.','')}</span>`,`link:${i}`)}
+   ${row('Send when the client says',`<div class="chips">${v.when.map(w=>`<span class="chip">“${w}”</span>`).join('')}</div>`,null,`<a class="ib" href="${v.url}" target="_blank" rel="noopener" aria-label="Watch Part ${i+1}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></a>`)}
+  </div>
+  <div class="foot"><button class="big" data-copy="vid:${i}">${IC}Copy full message</button><button class="link" data-preview="p-v${i}">Preview message</button><pre class="msg" id="p-v${i}" hidden></pre></div>`;
+  main.appendChild(c);
+  document.getElementById('p-v'+i).textContent=vidMsg(v,i);
+});
+
+// Emails
+const eh=document.createElement('div');eh.id='emails';
+eh.innerHTML=`<h2 class="sec">Support email templates</h2><p class="intro" style="margin-top:4px">Blank fields stay as <span class="ph">[brackets]</span> for the client to fill in. Open <b>Fill in details</b> to add what you already know.</p>
+<div class="seg" role="group" aria-label="Who sends the email"><button type="button" data-mode="client">Client sends</button><button type="button" data-mode="sales">Sales team sends</button></div>`;
+main.appendChild(eh);
+addNav('emails','Email templates');
+
+T.forEach((t,i)=>{
+  const id='email-'+t.key; addNav(id,t.title);
+  const c=document.createElement('section');c.className='card';c.id=id;c.dataset.i=i;
+  c.innerHTML=`<div class="card-head"><p class="eyebrow">Email to JetaFX support</p><h3 class="card-title">${t.title}</h3><p class="card-sub">${t.sub}</p></div>
+  <div class="rows">
+    ${row('Send to',`<span class="v">${SUPPORT_EMAIL}</span>`,'to')}
+    ${row('Subject',`<span class="v" data-subj></span>`,`subj:${i}`)}
+    ${row('Attach',`<span class="v">${t.attach}</span>`,null,'')}
+  </div>
+  <details class="fill"><summary>Fill in details (optional)</summary><div class="fields" data-fields></div></details>
+  <div class="foot" style="border-top:1.5px solid var(--line);padding-top:16px">
+    <button class="big" data-copy="email:${i}">${IC}Copy full email</button>
+    <div class="alt"><button class="sec-btn" data-copy="both:${i}">Copy subject + email</button><button class="sec-btn" data-copy="wa:${i}" data-wa>Copy for WhatsApp</button></div>
+    <button class="link" data-preview="p-e${i}">Preview email</button>
+    <pre class="msg" id="p-e${i}" hidden></pre>
+  </div>`;
+  main.appendChild(c);
+});
+
+function renderEmails(){
+  document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===mode));
+  document.querySelectorAll('[data-wa]').forEach(b=>b.hidden=mode!=='client');
+  T.forEach((t,i)=>{
+    const c=document.getElementById('email-'+t.key);
+    c.querySelector('[data-subj]').innerHTML=fillH(subjTpl(i),i);
+    document.getElementById('p-e'+i).innerHTML=fillH(bodyTpl(i),i);
+    const box=c.querySelector('[data-fields]');box.innerHTML='';
+    const keys=[...t.fields,...(mode==='client'?['phone']:['agent'])];
+    keys.forEach(k=>{
+      const d=document.createElement('div');d.className='field'+(k==='issue'?' wide':'');
+      const fid=`f-${t.key}-${k}`;
+      d.innerHTML=`<label for="${fid}">${FIELD_UI[k]}</label>`+(k==='issue'?`<textarea id="${fid}" placeholder="${esc(lab(k))}"></textarea>`:`<input id="${fid}" type="text" placeholder="${esc(lab(k))}">`);
+      const inp=d.querySelector('input,textarea');inp.value=vals[i][k]||'';
+      inp.addEventListener('input',()=>{vals[i][k]=inp.value;c.querySelector('[data-subj]').innerHTML=fillH(subjTpl(i),i);document.getElementById('p-e'+i).innerHTML=fillH(bodyTpl(i),i);});
+      box.appendChild(d);
+    });
+    const cl=document.createElement('button');cl.type='button';cl.className='clear';cl.textContent='Clear fields';
+    cl.onclick=()=>{vals[i]={};renderEmails();};box.appendChild(cl);
+  });
+}
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;try{localStorage.setItem('jfx-mode',mode)}catch(e){};renderEmails();});
+renderEmails();
+
+/* ---------- preview toggles ---------- */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-preview]');if(!b)return;const p=document.getElementById(b.dataset.preview);p.hidden=!p.hidden;b.textContent=(p.hidden?'Preview ':'Hide ')+(b.textContent.includes('email')?'email':'message');});
+
+/* ---------- copy ---------- */
+const toast=document.getElementById('toast');let tt;
+const showToast=m=>{toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('show'),1600);};
+function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}ta.remove();return ok;}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-copy]');if(!b||b.classList.contains('done'))return;
+  const [kind,n]=b.dataset.copy.split(':');const i=+n;let text='',msg='Copied';
+  if(kind==='series'){text=seriesMsg();msg='All 5 videos copied';}
+  else if(kind==='vid'){text=vidMsg(VIDEOS[i],i);msg=`Part ${i+1} copied`;}
+  else if(kind==='link'){text=VIDEOS[i].url;msg='Link copied';}
+  else if(kind==='to'){text=SUPPORT_EMAIL;msg='Email address copied';}
+  else if(kind==='subj'){text=fillT(subjTpl(i),i);msg='Subject copied';}
+  else if(kind==='email'){text=fillT(bodyTpl(i),i);msg='Email copied';}
+  else if(kind==='both'){text='To: '+SUPPORT_EMAIL+'\nSubject: '+fillT(subjTpl(i),i)+'\n\n'+fillT(bodyTpl(i),i);msg='Subject + email copied';}
+  else if(kind==='wa'){text=waMsg(i);msg='WhatsApp message copied';}
+  const done=()=>{const old=b.innerHTML;b.classList.add('done');b.innerHTML=b.classList.contains('ib')?CHECK:(b.classList.contains('big')?CHECK+'Copied':'Copied');showToast(msg);setTimeout(()=>{b.classList.remove('done');b.innerHTML=old},1400);};
+  const fail=()=>{fallbackCopy(text)?done():showToast('Copy blocked. Open the preview and copy the text by hand.');};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(done,fail);else fail();
+});
+
+/* ---------- active pill ---------- */
+function spy(){
+  let cur=navItems[0][0];
+  for(const [id] of navItems){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<160)cur=id;}
+  navItems.forEach(([id,a])=>{const on=id===cur;if(on!==a.classList.contains('on')){a.classList.toggle('on',on);if(on){const left=a.offsetLeft-(nav.clientWidth-a.offsetWidth)/2;nav.scrollTo({left:Math.max(0,left),behavior:'smooth'});}}});
+}
+addEventListener('scroll',spy,{passive:true});spy();
+</script>
+
+</body>
+</html>
